@@ -566,16 +566,18 @@ elif page == "⚖️ Asystent formalny oceny":
     st.title("⚖️ Asystent formalny oceny")
     st.write("Wsparcie w zakresie procedur, terminów, formularzy i poprawności formalnej — wyłącznie na podstawie załadowanych przepisów i poradnika KPRM.")
 
-    q_col1, q_col2, q_col3 = st.columns(3)
-    preset = ""
-    if q_col1.button("📅 Kiedy przedłuża się termin 24 miesięcy?"):
-        preset = "W jakich sytuacjach i o ile przedłuża się 24-miesięczny termin sporządzenia oceny okresowej?"
-    if q_col2.button("⚖️ Jak działa sprzeciw od oceny okresowej?"):
-        preset = "Jaki jest termin na wniesienie sprzeciwu od oceny okresowej i jak wygląda procedura jego rozpatrzenia?"
-    if q_col3.button("🆕 Jakie warunki trzeba spełnić w pierwszej ocenie?"):
-        preset = "Jakie warunki musi spełnić pracownik, aby otrzymać pozytywną pierwszą ocenę w służbie cywilnej?"
+    if "pytanie_form" not in st.session_state:
+        st.session_state["pytanie_form"] = ""
 
-    pytanie_form = st.text_area("Zadaj pytanie formalne:", value=preset, height=110)
+    q_col1, q_col2, q_col3 = st.columns(3)
+    if q_col1.button("📅 Kiedy przedłuża się termin 24 miesięcy?"):
+        st.session_state["pytanie_form"] = "W jakich sytuacjach i o ile przedłuża się 24-miesięczny termin sporządzenia oceny okresowej?"
+    if q_col2.button("⚖️ Jak działa sprzeciw od oceny okresowej?"):
+        st.session_state["pytanie_form"] = "Jaki jest termin na wniesienie sprzeciwu od oceny okresowej i jak wygląda procedura jego rozpatrzenia?"
+    if q_col3.button("🆕 Jakie warunki trzeba spełnić w pierwszej ocenie?"):
+        st.session_state["pytanie_form"] = "Jakie warunki musi spełnić pracownik, aby otrzymać pozytywną pierwszą ocenę w służbie cywilnej?"
+
+    pytanie_form = st.text_area("Zadaj pytanie formalne:", key="pytanie_form", height=110)
 
     if st.button("Zapytaj Asystenta Formalnego"):
         if not client:
